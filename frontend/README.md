@@ -1,4 +1,4 @@
-# Fofoca? ☕ - Frontend Web
+# Nem te conto... 👀 - Frontend Web
 
 Frontend moderno e minimalista para um sistema de chat em tempo real com WebSocket.
 
@@ -34,7 +34,7 @@ Frontend moderno e minimalista para um sistema de chat em tempo real com WebSock
 ### 🎯 Funcionalidades
 
 - ✅ Interface de chat funcional
-- ✅ Sistema de gerenciamento de conversas
+- ✅ Uma única sala de bate-papo
 - ✅ Envio de mensagens com timestamp
 - ✅ Scroll automático para novas mensagens
 - ✅ Escape de HTML (proteção contra XSS)
@@ -73,12 +73,12 @@ Seu navegador abrirá automaticamente com a aplicação.
 
 ### Testando a Aplicação
 
-1. Clique no botão **"+"** para criar uma nova conversa
-2. Digite um nome para a conversa
-3. Digite uma mensagem no campo de texto
-4. Pressione **Enter** ou clique em **"Enviar"**
-5. Você verá a mensagem aparecer com um timestamp
-6. Uma resposta simulada aparecerá automaticamente após ~800ms
+1. Digite uma mensagem no campo de texto
+2. Pressione **Enter** ou clique em **"Enviar"**
+3. Você verá a mensagem aparecer com um timestamp
+4. Uma resposta simulada aparecerá automaticamente após ~800ms
+
+As mensagens são locais e não são compartilhadas entre usuários enquanto não houver integração com backend.
 
 ---
 
@@ -114,8 +114,7 @@ frontend/
 **index.html**: Template HTML5 com semântica moderna
 
 - Header com logo e status de conexão
-- Sidebar com lista de conversas
-- Área de chat com mensagens
+- Uma sala de chat com mensagens
 - Input com suporte a Enter
 
 **src/main.ts**: Aplicação principal
@@ -123,7 +122,6 @@ frontend/
 - Classe `ChatApp` com toda a lógica
 - Event listeners para interações
 - Renderização de mensagens
-- Gerenciamento de conversas
 
 **src/types.ts**: Definições de tipos
 
@@ -191,7 +189,7 @@ theme: {
 
 ```html
 <!-- Antes -->
-<h1 class="text-2xl font-bold text-white">Fofoca? ☕</h1>
+<h1 class="text-2xl font-bold text-white">Nem te conto... 👀</h1>
 
 <!-- Depois -->
 <h1 class="text-2xl font-bold text-white">MyChat</h1>
@@ -319,7 +317,6 @@ class ChatApp {
     // Enviar para backend
     this.wsClient.send('message', {
       content,
-      conversationId: this.currentConversationId,
       timestamp: new Date().toISOString(),
     });
 
@@ -347,8 +344,7 @@ interface WebSocketMessage {
   "type": "message",
   "payload": {
     "content": "Olá!",
-    "sender": "João",
-    "conversationId": "conv-1"
+    "sender": "João"
   },
   "timestamp": "2026-11-22T18:38:43.810Z"
 }
@@ -362,8 +358,7 @@ interface WebSocketMessage {
   "payload": {
     "id": "msg-123",
     "content": "Oi João!",
-    "sender": "Maria",
-    "conversationId": "conv-1"
+    "sender": "Maria"
   },
   "timestamp": "2026-11-22T18:38:50.000Z"
 }
@@ -410,13 +405,6 @@ interface WebSocketMessage {
 - Nome da aplicação
 - Indicador de status de conexão (verde = conectado)
 
-**Sidebar - Conversas**
-
-- Input para criar nova conversa
-- Lista scrollável de conversas
-- Preview da última mensagem
-- Hover effects
-
 **Chat Area**
 
 - Container de mensagens com scroll automático
@@ -447,7 +435,7 @@ colors: {
 | ---------- | -------------- | ----------------------------- |
 | Mobile     | < 768px        | Pronto para CSS media queries |
 | Tablet     | 768px - 1920px | Ajustes de padding            |
-| Desktop    | 1920px+        | Sidebar + Chat lado a lado    |
+| Desktop    | 1920px+        | Sala de chat centralizada     |
 
 ### Segurança Implementada
 

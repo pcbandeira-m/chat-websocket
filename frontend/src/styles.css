@@ -79,7 +79,7 @@ button {
 }
 
 .message-bubble.other {
-    @apply bg-primary/20 text-primary mr-auto rounded-bl-none;
+    @apply bg-primary/20 text-dark mr-auto rounded-bl-none;
 }
 
 /* Loading animation */

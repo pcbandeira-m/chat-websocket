@@ -7,8 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#B39C7E',      // Claro Golden Sandalwood
-        dark: '#3a3a3a',         // Cinza mais claro
+        primary: '#857861',
+        dark: '#29281e',
+        canvas: '#e7d4bb',
+        surface: '#f7efe4',
       },
       animation: {
         'bounce-slow': 'bounce 2s infinite',
