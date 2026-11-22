@@ -7,11 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#937661',      // Golden Sandalwood
-        secondary: '#462321',    // Plum Wine
-        accent: '#E7D4B8',       // Almond Light
-        dark: '#292821',         // Green Velvet
-        powder: '#191211',       // Carbon Powder
+        primary: '#B39C7E',      // Claro Golden Sandalwood
+        dark: '#3a3a3a',         // Cinza mais claro
       },
       animation: {
         'bounce-slow': 'bounce 2s infinite',
