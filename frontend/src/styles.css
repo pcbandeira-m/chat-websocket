@@ -52,10 +52,7 @@ html {
 
 /* Gradient text */
 .gradient-text {
-    background: linear-gradient(135deg, #937661, #462321);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #937661;
 }
 
 /* Focus ring customization */
@@ -78,11 +75,11 @@ button {
 }
 
 .message-bubble.own {
-    @apply bg-gradient-to-r from-primary to-secondary text-accent ml-auto rounded-br-none;
+    @apply bg-primary text-dark ml-auto rounded-br-none font-medium;
 }
 
 .message-bubble.other {
-    @apply bg-secondary/40 text-accent/90 mr-auto rounded-bl-none;
+    @apply bg-primary/20 text-primary mr-auto rounded-bl-none;
 }
 
 /* Loading animation */
