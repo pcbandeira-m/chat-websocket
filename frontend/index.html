@@ -31,6 +31,11 @@
         <main class="flex-1 min-h-0 flex max-w-6xl w-full mx-auto p-4 overflow-hidden">
             <!-- Chat Area -->
             <section class="flex-1 flex flex-col bg-surface rounded-2xl shadow-lg border border-primary/30 overflow-hidden">
+                <div class="p-4 border-b border-primary/30">
+                    <label for="name-input" class="block text-sm font-medium text-dark mb-1">Seu nome</label>
+                    <input id="name-input" type="text" maxlength="50" autocomplete="nickname" placeholder="Como quer ser chamado?" aria-describedby="name-error" class="w-full sm:max-w-xs px-4 py-2 bg-white text-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder-dark/60">
+                    <p id="name-error" role="alert" class="hidden mt-1 text-sm text-red-700">Digite seu nome para enviar mensagens.</p>
+                </div>
                 <!-- Messages Container -->
                 <div id="messages-container" class="flex-1 overflow-y-auto p-6 space-y-4 scroll-smooth">
                     <div id="welcome-message" class="flex justify-center items-center h-full text-dark/70">

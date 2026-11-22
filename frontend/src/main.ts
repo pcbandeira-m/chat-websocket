@@ -11,12 +11,16 @@ interface Message {
 }
 
 class ChatApp {
+    private nameInput: HTMLInputElement
+    private nameError: HTMLElement
     private messageInput: HTMLInputElement
     private sendButton: HTMLButtonElement
     private messagesContainer: HTMLElement
     private messages: Message[] = []
 
     constructor() {
+        this.nameInput = document.getElementById('name-input') as HTMLInputElement
+        this.nameError = document.getElementById('name-error') as HTMLElement
         this.messageInput = document.getElementById('message-input') as HTMLInputElement
         this.sendButton = document.getElementById('send-btn') as HTMLButtonElement
         this.messagesContainer = document.getElementById('messages-container') as HTMLElement
@@ -24,6 +28,10 @@ class ChatApp {
     }
 
     private initializeEventListeners(): void {
+        this.nameInput.addEventListener('input', () => {
+            this.nameError.classList.add('hidden')
+            this.nameInput.removeAttribute('aria-invalid')
+        })
         this.sendButton.addEventListener('click', () => this.sendMessage())
         this.messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.sendMessage()
@@ -34,12 +42,20 @@ class ChatApp {
         const content = this.messageInput.value.trim()
         if (!content) return
 
+        const sender = this.nameInput.value.trim()
+        if (!sender) {
+            this.nameError.classList.remove('hidden')
+            this.nameInput.setAttribute('aria-invalid', 'true')
+            this.nameInput.focus()
+            return
+        }
+
         document.getElementById('welcome-message')?.remove()
 
         const message: Message = {
             id: `msg-${Date.now()}`,
             content,
-            sender: 'Você',
+            sender,
             timestamp: new Date(),
             isOwn: true
         }
@@ -59,7 +75,7 @@ class ChatApp {
         const bubbleClass = message.isOwn ? 'message-bubble own' : 'message-bubble other'
         messageEl.innerHTML = `
             <div class="${bubbleClass}">
-                <div class="font-medium text-xs opacity-75 mb-1">${message.sender}</div>
+                <div class="font-medium text-xs opacity-75 mb-1">${this.escapeHtml(message.sender)}</div>
                 <div>${this.escapeHtml(message.content)}</div>
                 <div class="text-xs opacity-50 mt-1">${this.formatTime(message.timestamp)}</div>
             </div>

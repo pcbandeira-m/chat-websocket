@@ -35,6 +35,7 @@ Frontend moderno e minimalista para um sistema de chat em tempo real com WebSock
 
 - ✅ Interface de chat funcional
 - ✅ Uma única sala de bate-papo
+- ✅ Identificação por nome, sem login
 - ✅ Envio de mensagens com timestamp
 - ✅ Scroll automático para novas mensagens
 - ✅ Escape de HTML (proteção contra XSS)
@@ -73,12 +74,13 @@ Seu navegador abrirá automaticamente com a aplicação.
 
 ### Testando a Aplicação
 
-1. Digite uma mensagem no campo de texto
-2. Pressione **Enter** ou clique em **"Enviar"**
-3. Você verá a mensagem aparecer com um timestamp
-4. Uma resposta simulada aparecerá automaticamente após ~800ms
+1. Digite seu nome no campo **"Seu nome"**
+2. Digite uma mensagem no campo de texto
+3. Pressione **Enter** ou clique em **"Enviar"**
+4. Você verá seu nome e a mensagem com um timestamp
+5. Uma resposta simulada aparecerá automaticamente após ~800ms
 
-As mensagens são locais e não são compartilhadas entre usuários enquanto não houver integração com backend.
+O nome pode ser alterado a qualquer momento e vale para as próximas mensagens. Nome e mensagens são locais, não persistem ao recarregar e não são compartilhados entre usuários enquanto não houver integração com backend.
 
 ---
 
