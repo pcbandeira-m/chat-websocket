@@ -1,0 +1,133 @@
+### Java / Maven / Gradle ###
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven
+target/
+.m2/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.asc
+.flattened-pom.xml
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle
+gradle/
+build/
+!gradle-wrapper.properties
+.gradle/
+*.gradle~
+gradlew
+gradlew.bat
+
+# IDEs (IntelliJ, Eclipse, VSCode)
+.idea/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+### Node / TypeScript / npm ###
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Production
+dist/
+build/
+
+# Misc
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+npm-err.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+*.js.map
+*.d.ts.map
+
+# Testing
+coverage/
+.nyc_output/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Vite
+.cache/
+dist/
+
+### OS ###
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+### IDE Specific ###
+# VSCode
+.vscode/*
+!.vscode/extensions.json
+.vscode/settings.json
+.vscode/launch.json
+
+# WebStorm
+.idea/
+*.iml
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# NetBeans
+nbproject/
+build/
+dist/
+nbdist/
+.nb-gradle/
+
+### Misc ###
+.DS_Store
+*.log
+!npm-debug.log
+*.swp
+*.swo
+*~
+.idea
+.vscode
