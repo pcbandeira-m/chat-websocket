@@ -6,7 +6,7 @@ export interface Message {
     id: string
     content: string
     sender: string
-    timestamp: Date
+    timestamp: string
     isOwn: boolean
 }
 
@@ -25,7 +25,8 @@ export interface User {
 }
 
 export interface WebSocketMessage {
-    type: 'message' | 'status' | 'error' | 'connection'
-    payload: unknown
+    type: 'chat' | 'connection' | 'error'
+    data: string
+    sender: string
     timestamp: string
 }

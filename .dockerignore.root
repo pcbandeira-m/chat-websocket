@@ -1,0 +1,30 @@
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Node
+node_modules/
+npm-debug.log
+pnpm-lock.yaml
+
+# Build
+dist/
+target/
+*.jar
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Environment
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log

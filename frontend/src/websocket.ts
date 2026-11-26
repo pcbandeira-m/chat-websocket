@@ -1,7 +1,9 @@
 /**
- * WebSocket Client for Chat Application
- * Exemplo de como conectar ao servidor WebSocket
+ * WebSocket Client for Chat Application - Native Implementation
+ * Implementação nativa da API WebSocket do navegador com TypeScript
  */
+
+import type { WebSocketMessage } from './types'
 
 export interface WebSocketConfig {
     url: string
@@ -15,7 +17,10 @@ export class ChatWebSocket {
     private reconnectAttempts: number
     private reconnectDelay: number
     private currentAttempt = 0
-    private listeners: Map<string, (data: unknown) => void> = new Map()
+    private messageHandlers: ((message: WebSocketMessage) => void)[] = []
+    private openHandlers: (() => void)[] = []
+    private closeHandlers: (() => void)[] = []
+    private errorHandlers: ((error: Event) => void)[] = []
 
     constructor(config: WebSocketConfig) {
         this.url = config.url
@@ -28,28 +33,35 @@ export class ChatWebSocket {
             try {
                 this.ws = new WebSocket(this.url)
 
+                // onopen: Evento disparado quando a conexão é estabelecida
                 this.ws.onopen = () => {
                     console.log('✓ Conectado ao servidor WebSocket')
                     this.currentAttempt = 0
+                    this.openHandlers.forEach(handler => handler())
                     resolve()
                 }
 
-                this.ws.onmessage = (event) => {
+                // onmessage: Evento disparado quando uma mensagem é recebida
+                this.ws.onmessage = (event: MessageEvent) => {
                     try {
-                        const data = JSON.parse(event.data)
-                        this.emit(data.type, data.payload)
+                        const message: WebSocketMessage = JSON.parse(event.data)
+                        this.messageHandlers.forEach(handler => handler(message))
                     } catch (error) {
                         console.error('Erro ao parsear mensagem:', error)
                     }
                 }
 
-                this.ws.onerror = (error) => {
+                // onerror: Evento disparado quando ocorre um erro
+                this.ws.onerror = (error: Event) => {
                     console.error('Erro WebSocket:', error)
+                    this.errorHandlers.forEach(handler => handler(error))
                     reject(error)
                 }
 
+                // onclose: Evento disparado quando a conexão é fechada
                 this.ws.onclose = () => {
                     console.log('Desconectado do servidor')
+                    this.closeHandlers.forEach(handler => handler())
                     this.attemptReconnect()
                 }
             } catch (error) {
@@ -58,34 +70,40 @@ export class ChatWebSocket {
         })
     }
 
-    send(type: string, payload: unknown): void {
+    send(data: string, sender: string): void {
         if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
             console.error('WebSocket não está conectado')
             return
         }
 
-        this.ws.send(
-            JSON.stringify({
-                type,
-                payload,
-                timestamp: new Date().toISOString()
-            })
-        )
-    }
-
-    on(type: string, callback: (data: unknown) => void): void {
-        this.listeners.set(type, callback)
-    }
-
-    off(type: string): void {
-        this.listeners.delete(type)
-    }
-
-    private emit(type: string, payload: unknown): void {
-        const callback = this.listeners.get(type)
-        if (callback) {
-            callback(payload)
+        const message: WebSocketMessage = {
+            type: 'chat' as const,
+            data,
+            sender,
+            timestamp: new Date().toISOString()
         }
+
+        this.ws.send(JSON.stringify(message))
+    }
+
+    // Adiciona handler para mensagens recebidas
+    onMessage(callback: (message: WebSocketMessage) => void): void {
+        this.messageHandlers.push(callback)
+    }
+
+    // Adiciona handler para abertura de conexão
+    onOpen(callback: () => void): void {
+        this.openHandlers.push(callback)
+    }
+
+    // Adiciona handler para fechamento de conexão
+    onClose(callback: () => void): void {
+        this.closeHandlers.push(callback)
+    }
+
+    // Adiciona handler para erros
+    onError(callback: (error: Event) => void): void {
+        this.errorHandlers.push(callback)
     }
 
     private attemptReconnect(): void {
