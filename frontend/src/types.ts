@@ -25,6 +25,7 @@ export interface User {
 }
 
 export interface WebSocketMessage {
+    id?: string
     type: 'chat' | 'connection' | 'error'
     data: string
     sender: string

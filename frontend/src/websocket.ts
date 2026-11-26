@@ -70,13 +70,14 @@ export class ChatWebSocket {
         })
     }
 
-    send(data: string, sender: string): void {
+    send(data: string, sender: string, id?: string): void {
         if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
             console.error('WebSocket não está conectado')
             return
         }
 
         const message: WebSocketMessage = {
+            ...(id ? { id } : {}),
             type: 'chat' as const,
             data,
             sender,

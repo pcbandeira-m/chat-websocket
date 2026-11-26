@@ -4,6 +4,7 @@
  */
 
 import { ChatWebSocket } from './websocket'
+import { generateId } from './utils'
 import type { Message, WebSocketMessage } from './types'
 
 class ChatApp {
@@ -21,13 +22,16 @@ class ChatApp {
         this.sendButton = document.getElementById('send-btn') as HTMLButtonElement
         this.messagesContainer = document.getElementById('messages-container') as HTMLElement
         this.userStatusEl = document.getElementById('user-status') as HTMLElement
-        
+
+        const wsUrl = import.meta.env.VITE_WS_URL || `ws://${window.location.hostname || 'localhost'}:8080/ws/chat`
+
         this.ws = new ChatWebSocket({
-            url: 'ws://localhost:8080/ws',
+            url: wsUrl,
             reconnectAttempts: 5,
             reconnectDelay: 3000
         })
-        
+
+        this.updateUserStatus(false)
         this.initializeWebSocket()
         this.initializeEventListeners()
     }
@@ -76,12 +80,14 @@ class ChatApp {
 
         document.getElementById('welcome-message')?.remove()
 
+        const id = generateId('msg')
+
         // Enviar mensagem via socket.send()
-        this.ws.send(content, sender)
+        this.ws.send(content, sender, id)
 
         // Renderizar mensagem local imediatamente
         const message: Message = {
-            id: `msg-${Date.now()}`,
+            id,
             content,
             sender,
             timestamp: new Date().toISOString(),
@@ -96,8 +102,14 @@ class ChatApp {
 
     private handleIncomingMessage(msg: WebSocketMessage): void {
         if (msg.type === 'chat') {
+            if (msg.id && this.messages.some(m => m.id === msg.id)) {
+                return
+            }
+
+            document.getElementById('welcome-message')?.remove()
+
             const message: Message = {
-                id: `msg-${Date.now()}`,
+                id: msg.id || generateId('msg'),
                 content: msg.data,
                 sender: msg.sender,
                 timestamp: msg.timestamp,
@@ -127,7 +139,7 @@ class ChatApp {
     }
 
     private updateUserStatus(connected: boolean): void {
-        const statusDot = this.userStatusEl.querySelector('.animate-pulse')
+        const statusDot = this.userStatusEl.querySelector('span:first-child')
         if (statusDot) {
             statusDot.className = connected ? 'inline-block w-2 h-2 bg-primary rounded-full animate-pulse' : 'inline-block w-2 h-2 bg-red-500 rounded-full'
         }
